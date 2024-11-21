@@ -27,9 +27,16 @@ Due to the size of the monorepo, and for convenience, we will be maintaining loc
 
 ## CHANGES
 
-- (pending) Shader generator should check if the shader in question has the _ARKIO_VEIL keyword defined; and, if so, output a special combination of blend modes with separate modes for alpha; i.e.:
-Blend SrcAlpha OneMinusSrcAlpha, SrcAlpha Zero
-
-- (pending) if the shader has _ARKIO_VEIL keyword defined, relevant shader includes for forward passes must check against it and if it is defined, they should NOT set the alpha to 1.0 even if the shader is opaque.
+- added Packages/com.unity.render-pipelines.universal/Editor/ArkioHooks.cs
+- modified Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Targets/UniversalLitSubTarget.cs
+to call `ArkioURP.ArkioURPHooks.OnShaderAboutToBeGenerated(context, target);`
+- inside `ArkioURPHooks.OnShaderAboutToBeGenerated` we inject an `_ARKIO_VEIL` define and replace the blend mode with `Blend SrcAlpha OneMinusSrcAlpha, SrcAlpha Zero`
+- modified Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/PBRForwardPass.hlsl with:
+```
+#if _ARKIO_VEIL
+    isTransparent = true; // just for the purposes of not resetting our alpha, so shouldn't affect anything else
+#endif
+```
+just before the line `color.a = OutputAlpha(color.a, isTransparent);`
 
 ==============================================
