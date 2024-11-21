@@ -18,6 +18,11 @@ The intent is to have a dedicated Arkio URP - a small set of changes which lever
 
 This document will list ALL the changes made to URP, so that URP upgrades can be easily made.
 
+The resulting URP can be included in the main Arkio manifest directly from the repository, using "com.unity.render-pipelines.universal" : "git+https://github.com/dr-goran/Arkio-URP.git?path=/Packages/com.unity.render-pipelines.universal#arkio-main" 
+(with similar corresponding includes for the .shadergraph and the .core packages)
+
+Due to the size of the monorepo, and for convenience, we will be maintaining local tar.gz archives of the repositories in the main Arkio repository in the Packages folder, and in everyday development those should be referred to instead.
+
 =========================================
 
 ## CHANGES
