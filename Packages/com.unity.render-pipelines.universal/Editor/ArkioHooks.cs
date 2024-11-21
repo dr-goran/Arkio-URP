@@ -39,6 +39,8 @@ namespace UnityEditor.ArkioURP {
                             };
 
                             pass.descriptor.defines.Add(c);
+
+                            pass.descriptor.includes.Add("Assets/Resources/Shaders/ArkioCustomShadergraphs/ArkioVeilDirect.hlsl", IncludeLocation.Graph);
                         }
                     }
                 }

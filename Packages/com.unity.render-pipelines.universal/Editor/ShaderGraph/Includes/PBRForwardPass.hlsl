@@ -100,7 +100,7 @@ void frag(
 
 #if defined(_ALPHATEST_ON)
     half alpha = AlphaDiscard(surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold);
-#elif defined(_SURFACE_TYPE_TRANSPARENT) || defined(_ARKIO_VEIL)
+#elif defined(_SURFACE_TYPE_TRANSPARENT)
     half alpha = surfaceDescription.Alpha;
 #else
     half alpha = half(1.0);
@@ -159,10 +159,10 @@ void frag(
     half4 color = UniversalFragmentPBR(inputData, surface);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
 
-#if _ARKIO_VEIL
-    isTransparent = true; // just for the purposes of not resetting our alpha, so shouldn't affect anything else
-#endif
     color.a = OutputAlpha(color.a, isTransparent);
+    #if defined(_ARKIO_VEIL)
+    color.a *= (1.0 - _GlobalVeilAlpha);
+    #endif
     outColor = color;
 
 #ifdef _WRITE_RENDERING_LAYERS
