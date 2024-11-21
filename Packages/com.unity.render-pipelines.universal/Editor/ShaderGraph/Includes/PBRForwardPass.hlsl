@@ -159,8 +159,10 @@ void frag(
     half4 color = UniversalFragmentPBR(inputData, surface);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
 
+#if _ARKIO_VEIL
+    isTransparent = true; // just for the purposes of not resetting our alpha, so shouldn't affect anything else
+#endif
     color.a = OutputAlpha(color.a, isTransparent);
-
     outColor = color;
 
 #ifdef _WRITE_RENDERING_LAYERS

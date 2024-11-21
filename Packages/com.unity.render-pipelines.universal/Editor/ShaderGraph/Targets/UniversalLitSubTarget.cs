@@ -91,6 +91,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
 
             // Process SubShaders
             context.AddSubShader(PostProcessSubShader(SubShaders.LitSubShader(target, workflowMode, target.renderType, target.renderQueue, target.disableBatching, complexLit, blendModePreserveSpecular)));
+            ArkioURP.ArkioURPHooks.OnShaderAboutToBeGenerated(context, target);
         }
 
         public override void ProcessPreviewMaterial(Material material)
