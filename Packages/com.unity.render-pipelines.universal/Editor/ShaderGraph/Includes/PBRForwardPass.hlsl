@@ -100,7 +100,7 @@ void frag(
 
 #if defined(_ALPHATEST_ON)
     half alpha = AlphaDiscard(surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold);
-#elif defined(_SURFACE_TYPE_TRANSPARENT)
+#elif defined(_SURFACE_TYPE_TRANSPARENT) || defined(_ARKIO_VEIL)
     half alpha = surfaceDescription.Alpha;
 #else
     half alpha = half(1.0);
