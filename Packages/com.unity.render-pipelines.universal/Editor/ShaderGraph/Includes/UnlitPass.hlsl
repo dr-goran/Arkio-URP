@@ -87,6 +87,9 @@ void frag(
         finalColor.rgb *= aoFactor.directAmbientOcclusion;
     #endif
 
+    #if defined(_ARKIO_VEIL)
+    finalColor.a *= (1.0 - _GlobalVeilAlpha);
+    #endif
     outColor = finalColor;
 
 #ifdef _WRITE_RENDERING_LAYERS
