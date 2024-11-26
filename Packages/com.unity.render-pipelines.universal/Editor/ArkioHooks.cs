@@ -19,7 +19,7 @@ namespace UnityEditor.ArkioURP {
                     // shader properties to know whether we should or should not include the veil alteration code.
                     // we can't even check if the shader we are in currently, has "Arkio" in its name!
                     // for this reason, we might want to move this generation code into the Generator class itself, but that lives in shadergraph.
-                    if (pass.descriptor.referenceName == "SHADERPASS_FORWARD") {
+                    if (pass.descriptor.referenceName == "SHADERPASS_FORWARD" || pass.descriptor.referenceName = "SHADERPASS_UNLIT") {
                         if (target.surfaceType == SurfaceType.Opaque) {
                             Debug.LogWarning("<color=cyan>Arkio shader generator has injected relevant veil code into the given shader</color>");
                             __RemoveRenderState(pass.descriptor.renderStates, RenderStateType.Blend);
