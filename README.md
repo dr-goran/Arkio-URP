@@ -31,12 +31,13 @@ Due to the size of the monorepo, and for convenience, we will be maintaining loc
 - modified Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Targets/UniversalLitSubTarget.cs
 to call `ArkioURP.ArkioURPHooks.OnShaderAboutToBeGenerated(context, target);`
 - inside `ArkioURPHooks.OnShaderAboutToBeGenerated` we inject an `_ARKIO_VEIL` define and replace the blend mode with `Blend SrcAlpha OneMinusSrcAlpha, SrcAlpha Zero`
-- modified Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/PBRForwardPass.hlsl with:
+- modified `Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/PBRForwardPass.hlsl` and `Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/UnlitPass.hlsl` with:
 ```
-#if _ARKIO_VEIL
-    isTransparent = true; // just for the purposes of not resetting our alpha, so shouldn't affect anything else
+#if defined(_ARKIO_VEIL)
+color.a *= (1.0 - _GlobalVeilAlpha);
 #endif
 ```
-just before the line `color.a = OutputAlpha(color.a, isTransparent);`
+immediately before assigning the out color: 
+`outColor = color`
 
 ==============================================
