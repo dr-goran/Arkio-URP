@@ -245,11 +245,16 @@ void LitPassFragmentSimple(
     #endif
 
     #if defined(ARKIO_VEIL)
-        color.a *= 1.0 - _GlobalVeilAlpha;
+        color.a *= 1.0 - _ArkioGlobalVeilAlpha;
         #ifdef ARKIO_SHADER_DEBUG
             color.rgb = float3(1,1,0);
         #endif
     #endif
+
+    #if defined(ARKIO_XRAY)
+        color.a *= _ArkioGlobalXRayAlphaMultiplier;
+    #endif
+
     outColor = color;
 
 #ifdef _WRITE_RENDERING_LAYERS

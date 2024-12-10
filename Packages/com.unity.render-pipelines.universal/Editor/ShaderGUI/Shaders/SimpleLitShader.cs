@@ -21,6 +21,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
                 KeywordToggle("Obey veil", "ARKIO_VEIL");
                 KeywordToggle("Sectioned", "ARKIO_SECTION");
                 KeywordToggle("Use Vertex Colors", "ARKIO_VERTEX_COLORS");
+                KeywordToggle("X-Ray", "ARKIO_XRAY");
                 //bool isVeil = EditorGUILayout.Toggle("Obey veil", material.IsKeywordEnabled("ARKIO_VEIL"));
                 //if (isVeil)     material.EnableKeyword("ARKIO_VEIL");
                 //else            material.DisableKeyword("ARKIO_VEIL");
