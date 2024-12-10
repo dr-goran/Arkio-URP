@@ -14,6 +14,10 @@ struct Attributes
     float2 texcoord      : TEXCOORD0;
     float2 staticLightmapUV    : TEXCOORD1;
     float2 dynamicLightmapUV    : TEXCOORD2;
+
+    #if defined(ARKIO_VERTEX_COLORS)
+    float4 vertexColor : COLOR;
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -43,14 +47,19 @@ struct Varyings
 
     DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 7);
 
-#ifdef DYNAMICLIGHTMAP_ON
+    
+    #ifdef DYNAMICLIGHTMAP_ON
     float2  dynamicLightmapUV : TEXCOORD8; // Dynamic lightmap UVs
-#endif
-
-#ifdef USE_APV_PROBE_OCCLUSION
+    #endif
+    
+    #ifdef USE_APV_PROBE_OCCLUSION
     float4 probeOcclusion : TEXCOORD9;
-#endif
+    #endif
 
+    #if defined(ARKIO_VERTEX_COLORS)
+        float4 vertexColor : TEXCOORD10;
+    #endif
+    
     float4 positionCS                  : SV_POSITION;
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
@@ -166,6 +175,13 @@ Varyings LitPassVertexSimple(Attributes input)
     output.normalWS = NormalizeNormalPerVertex(normalInput.normalWS);
 #endif
 
+#if defined(ARKIO_VERTEX_COLORS)
+    output.vertexColor = input.vertexColor;
+    #ifdef ARKIO_SHADER_DEBUG
+    output.vertexColor = float4(0.4, 0, 0, 1);
+    #endif
+#endif
+
     OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
 #ifdef DYNAMICLIGHTMAP_ON
     output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
@@ -199,8 +215,7 @@ void LitPassFragmentSimple(
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
     #if defined(ARKIO_SECTION)
-    if (sectioned(input.positionWS))
-        discard;
+        if (sectioned(input.positionWS)) discard;
     #endif
 
     SurfaceData surfaceData;
@@ -221,14 +236,18 @@ void LitPassFragmentSimple(
     InitializeBakedGIData(input, inputData);
 
     half4 color = UniversalFragmentBlinnPhong(inputData, surfaceData);
-    color.rgb = MixFog(color.rgb, inputData.fogCoord);
-    color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
+    #if defined(ARKIO_VERTEX_COLORS)
+        color.rgb = MixFog(color.rgb * input.vertexColor.rgb, inputData.fogCoord);
+        color.a   = OutputAlpha(color.a * input.vertexColor.a, IsSurfaceTypeTransparent(_Surface));
+    #else
+        color.rgb = MixFog(color.rgb, inputData.fogCoord);
+        color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
+    #endif
 
     #if defined(ARKIO_VEIL)
-
-    color.a *= 1.0 - _GlobalVeilAlpha;
+        color.a *= 1.0 - _GlobalVeilAlpha;
         #ifdef ARKIO_SHADER_DEBUG
-        color.rgb = float3(1,1,0);
+            color.rgb = float3(1,1,0);
         #endif
     #endif
     outColor = color;

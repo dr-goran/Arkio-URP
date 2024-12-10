@@ -136,14 +136,12 @@ Shader "Universal Render Pipeline/Simple Lit"
             // Defines
             #define BUMP_SCALE_NOT_SUPPORTED 1
 
+            // ARKIO SPECIFIC
+            #include_with_pragmas "./Arkio.hlsl"
+
             // -------------------------------------
             // Includes
-            
-            // ARKIO SPECIFIC
-            #pragma shader_feature _ ARKIO_VEIL
-            #pragma multi_compile _ ARKIO_SECTION
-            
-            #include "./Arkio.hlsl"
+
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitForwardPass.hlsl"
@@ -189,6 +187,9 @@ Shader "Universal Render Pipeline/Simple Lit"
 
             // This is used during shadow map generation to differentiate between directional and punctual light shadows, as they use different formulas to apply Normal Bias
             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+            // ARKIO SPECIFIC
+            #include_with_pragmas "./Arkio.hlsl"
 
             // -------------------------------------
             // Includes

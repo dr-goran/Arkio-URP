@@ -14,18 +14,38 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
             Material material = materialEditor.target as Material;
 
             CoreEditorUtils.DrawSplitter(materialEditor);
+            
             arkioExpanded = CoreEditorUtils.DrawHeaderFoldout("Arkio specific settings", arkioExpanded, isBoxed: false, null, null, isTitleHeader: false);
             
-            if (arkioExpanded) { 
-                bool isVeil = EditorGUILayout.Toggle("Obey veil", material.IsKeywordEnabled("ARKIO_VEIL"));
-                if (isVeil)     material.EnableKeyword("ARKIO_VEIL");
-                else            material.DisableKeyword("ARKIO_VEIL");
+            if (arkioExpanded) {
+                KeywordToggle("Obey veil", "ARKIO_VEIL");
+                KeywordToggle("Sectioned", "ARKIO_SECTION");
+                KeywordToggle("Use Vertex Colors", "ARKIO_VERTEX_COLORS");
+                //bool isVeil = EditorGUILayout.Toggle("Obey veil", material.IsKeywordEnabled("ARKIO_VEIL"));
+                //if (isVeil)     material.EnableKeyword("ARKIO_VEIL");
+                //else            material.DisableKeyword("ARKIO_VEIL");
 
-                bool isSection = EditorGUILayout.Toggle("Sectioned", material.IsKeywordEnabled("ARKIO_SECTION"));
-                if (isSection) material.EnableKeyword("ARKIO_SECTION");
-                else material.DisableKeyword("ARKIO_SECTION");
+                //bool isSection = EditorGUILayout.Toggle("Sectioned", material.IsKeywordEnabled("ARKIO_SECTION"));
+                //if (isSection) material.EnableKeyword("ARKIO_SECTION");
+                //else material.DisableKeyword("ARKIO_SECTION");
             }
-            EditorUtility.SetDirty(material);
+        }
+
+        void KeywordToggle(string name, string keyword)
+        {
+            // use initial toggle as tempate
+
+            bool prevHasKeyword = ((Material)materialEditor.target).IsKeywordEnabled(keyword);
+            bool hasKeyword = EditorGUILayout.Toggle(name, prevHasKeyword);
+            if (hasKeyword != prevHasKeyword) { 
+                // then apply that to all materials.
+                foreach (var t in materialEditor.targets) {
+                    var material = (Material)t;
+                    if (hasKeyword) material.EnableKeyword(keyword);
+                    else material.DisableKeyword(keyword);
+                    EditorUtility.SetDirty(material);
+                }
+            }
         }
 
         bool arkioExpanded;

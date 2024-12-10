@@ -1,4 +1,8 @@
-#define ARKIO_SHADER_DEBUG
+#pragma shader_feature _ ARKIO_VEIL
+#pragma multi_compile  _ ARKIO_VERTEX_COLORS
+#pragma multi_compile  _ ARKIO_SECTION
+
+// #define ARKIO_SHADER_DEBUG
 
 #ifndef ARKIO_INCLUDED
 #define ARKIO_INCLUDED
