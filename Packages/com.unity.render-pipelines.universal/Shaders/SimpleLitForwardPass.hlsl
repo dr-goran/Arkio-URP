@@ -194,9 +194,14 @@ void LitPassFragmentSimple(
     , out float4 outRenderingLayers : SV_Target1
 #endif
 )
-{
+{   
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
+    #if defined(ARKIO_SECTION)
+    if (sectioned(input.positionWS))
+        discard;
+    #endif
 
     SurfaceData surfaceData;
     InitializeSimpleLitSurfaceData(input.uv, surfaceData);
@@ -219,6 +224,13 @@ void LitPassFragmentSimple(
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
 
+    #if defined(ARKIO_VEIL)
+
+    color.a *= 1.0 - _GlobalVeilAlpha;
+        #ifdef ARKIO_SHADER_DEBUG
+        color.rgb = float3(1,1,0);
+        #endif
+    #endif
     outColor = color;
 
 #ifdef _WRITE_RENDERING_LAYERS

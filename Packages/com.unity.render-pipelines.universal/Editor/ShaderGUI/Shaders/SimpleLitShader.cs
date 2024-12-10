@@ -1,8 +1,36 @@
 using System;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace UnityEditor.Rendering.Universal.ShaderGUI
 {
+
+    internal class ArkioSimpleLitShader : SimpleLitShader
+    {
+        public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
+        {
+            base.OnGUI(materialEditor, properties);
+
+            Material material = materialEditor.target as Material;
+
+            CoreEditorUtils.DrawSplitter(materialEditor);
+            arkioExpanded = CoreEditorUtils.DrawHeaderFoldout("Arkio specific settings", arkioExpanded, isBoxed: false, null, null, isTitleHeader: false);
+            
+            if (arkioExpanded) { 
+                bool isVeil = EditorGUILayout.Toggle("Obey veil", material.IsKeywordEnabled("ARKIO_VEIL"));
+                if (isVeil)     material.EnableKeyword("ARKIO_VEIL");
+                else            material.DisableKeyword("ARKIO_VEIL");
+
+                bool isSection = EditorGUILayout.Toggle("Sectioned", material.IsKeywordEnabled("ARKIO_SECTION"));
+                if (isSection) material.EnableKeyword("ARKIO_SECTION");
+                else material.DisableKeyword("ARKIO_SECTION");
+            }
+            EditorUtility.SetDirty(material);
+        }
+
+        bool arkioExpanded;
+    }
+
     internal class SimpleLitShader : BaseShaderGUI
     {
         // Properties

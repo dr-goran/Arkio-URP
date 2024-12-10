@@ -138,6 +138,13 @@ Shader "Universal Render Pipeline/Simple Lit"
 
             // -------------------------------------
             // Includes
+            
+            // ARKIO SPECIFIC
+            #pragma shader_feature _ ARKIO_VEIL
+            #pragma multi_compile _ ARKIO_SECTION
+            
+            #include "./Arkio.hlsl"
+
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitForwardPass.hlsl"
             ENDHLSL
@@ -464,5 +471,5 @@ Shader "Universal Render Pipeline/Simple Lit"
     }
 
     Fallback  "Hidden/Universal Render Pipeline/FallbackError"
-    CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.SimpleLitShader"
+    CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.ArkioSimpleLitShader"
 }
