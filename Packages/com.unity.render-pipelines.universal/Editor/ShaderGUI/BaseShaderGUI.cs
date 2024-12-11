@@ -993,7 +993,12 @@ namespace UnityEditor
                         material.SetOverrideTag("RenderType", "Opaque");
                     }
 
-                    SetMaterialSrcDstBlendProperties(material, UnityEngine.Rendering.BlendMode.One, UnityEngine.Rendering.BlendMode.Zero);
+                    // Blend One Zero, SrcAlpha Zero
+                    if (material.IsKeywordEnabled("ARKIO_VEIL")) { 
+                        Debug.Log($"Material `{material.name}` is veil-compliant so we will be setting its blend modes to One Zero, SrcAlpha Zero");
+                        SetMaterialSrcDstBlendProperties(material, UnityEngine.Rendering.BlendMode.One, UnityEngine.Rendering.BlendMode.Zero, UnityEngine.Rendering.BlendMode.SrcAlpha, UnityEngine.Rendering.BlendMode.Zero);
+                    } else                    
+                        SetMaterialSrcDstBlendProperties(material, UnityEngine.Rendering.BlendMode.One, UnityEngine.Rendering.BlendMode.Zero);
                     zwrite = true;
                     material.DisableKeyword(ShaderKeywordStrings._ALPHAPREMULTIPLY_ON);
                     material.DisableKeyword(ShaderKeywordStrings._ALPHAMODULATE_ON);
@@ -1066,6 +1071,17 @@ namespace UnityEditor
                     if (offScreenAccumulateAlpha)
                         srcBlendA = UnityEngine.Rendering.BlendMode.Zero;
 
+                    // arkio modifications:
+                    if (material.IsKeywordEnabled("ARKIO_VEIL")) {
+                        // Blend One Zero, SrcAlpha Zero
+                        Debug.Log($"Material `{material.name}` is veil-compliant so we will be setting its blend modes to One Zero, SrcAlpha Zero");
+                        srcBlendRGB = UnityEngine.Rendering.BlendMode.One;
+                        dstBlendRGB = UnityEngine.Rendering.BlendMode.Zero;
+                        srcBlendA   = UnityEngine.Rendering.BlendMode.SrcAlpha;
+                        dstBlendA   = UnityEngine.Rendering.BlendMode.Zero;
+                    }
+
+
                     SetMaterialSrcDstBlendProperties(material, srcBlendRGB, dstBlendRGB, // RGB
                         srcBlendA, dstBlendA); // Alpha
 
@@ -1080,7 +1096,7 @@ namespace UnityEditor
 
                 if (material.HasProperty(Property.AlphaToMask))
                 {
-                    material.SetFloat(Property.AlphaToMask, alphaToMask ? 1.0f : 0.0f);
+                    material.SetFloat(Property.AlphaToMask, alphaToMask ? 1.0f : 0.0f); 
                 }
 
                 // check for override enum
