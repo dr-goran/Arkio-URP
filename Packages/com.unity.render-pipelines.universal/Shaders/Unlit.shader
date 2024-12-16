@@ -82,6 +82,9 @@ Shader "Universal Render Pipeline/Unlit"
             #pragma multi_compile_instancing
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
+            // ARKIO SPECIFIC
+            #include_with_pragmas "./Arkio.hlsl"
+
             // -------------------------------------
             // Includes
             #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
@@ -294,5 +297,5 @@ Shader "Universal Render Pipeline/Unlit"
     }
 
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
-    CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.UnlitShader"
+    CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.ArkioUnlitShader"
 }

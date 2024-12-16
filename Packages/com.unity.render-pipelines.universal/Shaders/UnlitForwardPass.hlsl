@@ -18,6 +18,9 @@ struct Attributes
     float4 tangentOS : TANGENT;
     #endif
 
+    #if defined(ARKIO_VERTEX_COLORS)
+    float4 vertexColor : COLOR;
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -31,6 +34,10 @@ struct Varyings
     float3 positionWS : TEXCOORD2;
     float3 normalWS : TEXCOORD3;
     float3 viewDirWS : TEXCOORD4;
+    #endif
+
+    #if defined(ARKIO_VERTEX_COLORS)
+        float4 vertexColor : TEXCOORD10;
     #endif
 
     UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -90,6 +97,13 @@ Varyings UnlitPassVertex(Attributes input)
     output.viewDirWS = viewDirWS;
     #endif
 
+    #if defined(ARKIO_VERTEX_COLORS)
+        output.vertexColor = input.vertexColor;
+        #ifdef ARKIO_SHADER_DEBUG
+        output.vertexColor = float4(0.4, 0, 0, 1);
+        #endif
+    #endif
+
     return output;
 }
 
@@ -125,6 +139,7 @@ void UnlitPassFragment(
 #endif
 
     half4 finalColor = UniversalFragmentUnlit(inputData, color, alpha);
+    
 
 #if defined(_SCREEN_SPACE_OCCLUSION) && !defined(_SURFACE_TYPE_TRANSPARENT)
     float2 normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
@@ -143,8 +158,21 @@ void UnlitPassFragment(
 #else
     half fogFactor = input.fogCoord;
 #endif
-    finalColor.rgb = MixFog(finalColor.rgb, fogFactor);
+
+#if defined(ARKIO_VERTEX_COLORS)
+    finalColor.rgb = MixFog(finalColor.rgb * input.vertexColor.rgb, inputData.fogCoord);
+    finalColor.a   = OutputAlpha(finalColor.a * input.vertexColor.a, IsSurfaceTypeTransparent(_Surface));
+#else
+    finalColor.rgb = MixFog(finalColor.rgb, inputData.fogCoord);
     finalColor.a = OutputAlpha(finalColor.a, IsSurfaceTypeTransparent(_Surface));
+#endif
+
+#if defined(ARKIO_VEIL)
+    finalColor.a *= 1.0 - _ArkioGlobalVeilAlpha;
+    #ifdef ARKIO_SHADER_DEBUG
+    finalColor.rgb = float3(1,1,0);
+    #endif
+#endif
 
     outColor = finalColor;
 
