@@ -1074,13 +1074,12 @@ namespace UnityEditor
                     // arkio modifications:
                     if (material.IsKeywordEnabled("ARKIO_VEIL")) {
                         // Blend One Zero, SrcAlpha Zero
-                        Debug.Log($"Material `{material.name}` is veil-compliant so we will be setting its blend modes to One Zero, SrcAlpha Zero");
-                        srcBlendRGB = UnityEngine.Rendering.BlendMode.One;
-                        dstBlendRGB = UnityEngine.Rendering.BlendMode.Zero;
+                        Debug.Log($"Material `{material.name}` is transparent and veil-compliant so we will be setting its blend modes to {srcBlendRGB}, {dstBlendRGB}, SrcAlpha Zero");
+                        //srcBlendRGB = UnityEngine.Rendering.BlendMode.One;
+                        //dstBlendRGB = UnityEngine.Rendering.BlendMode.Zero;
                         srcBlendA   = UnityEngine.Rendering.BlendMode.SrcAlpha;
                         dstBlendA   = UnityEngine.Rendering.BlendMode.Zero;
                     }
-
 
                     SetMaterialSrcDstBlendProperties(material, srcBlendRGB, dstBlendRGB, // RGB
                         srcBlendA, dstBlendA); // Alpha
