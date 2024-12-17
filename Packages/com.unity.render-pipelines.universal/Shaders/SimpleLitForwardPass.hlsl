@@ -10,10 +10,7 @@ struct Attributes
 {
     float4 positionOS    : POSITION;
     float3 normalOS      : NORMAL;
-    float4 tangentOS     : TANGENT;
     float2 texcoord      : TEXCOORD0;
-    float2 staticLightmapUV    : TEXCOORD1;
-    float2 dynamicLightmapUV    : TEXCOORD2;
 
     #if defined(ARKIO_VERTEX_COLORS)
     float4 vertexColor : COLOR;
@@ -154,7 +151,7 @@ Varyings LitPassVertexSimple(Attributes input)
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
     VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
-    VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
+    VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS);
 
 #if defined(_FOG_FRAGMENT)
         half fogFactor = 0;

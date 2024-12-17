@@ -45,7 +45,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
             base.OnGUI(materialEditor, properties);
 
             Material material = materialEditor.target as Material;
-            CoreEditorUtils.DrawSplitter(materialEditor);            
+            CoreEditorUtils.DrawSplitter(materialEditor);
             arkioExpanded = CoreEditorUtils.DrawHeaderFoldout("Arkio specific settings", arkioExpanded, isBoxed: false, null, null, isTitleHeader: false);            
             if (arkioExpanded) {
                 KeywordToggle("Obey veil", "ARKIO_VEIL");
