@@ -995,9 +995,9 @@ namespace UnityEditor
 
                     // Blend One Zero, SrcAlpha Zero
                     if (material.IsKeywordEnabled("ARKIO_VEIL")) { 
-                        Debug.Log($"Material `{material.name}` is veil-compliant so we will be setting its blend modes to One Zero, SrcAlpha Zero");
+                        // Debug.Log($"Material `{material.name}` is veil-compliant so we will be setting its blend modes to One Zero, SrcAlpha Zero");
                         SetMaterialSrcDstBlendProperties(material, UnityEngine.Rendering.BlendMode.One, UnityEngine.Rendering.BlendMode.Zero, UnityEngine.Rendering.BlendMode.SrcAlpha, UnityEngine.Rendering.BlendMode.Zero);
-                    } else                    
+                    } else
                         SetMaterialSrcDstBlendProperties(material, UnityEngine.Rendering.BlendMode.One, UnityEngine.Rendering.BlendMode.Zero);
                     zwrite = true;
                     material.DisableKeyword(ShaderKeywordStrings._ALPHAPREMULTIPLY_ON);
