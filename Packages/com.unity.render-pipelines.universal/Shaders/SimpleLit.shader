@@ -151,6 +151,8 @@ Shader "Universal Render Pipeline/Simple Lit"
         Pass
         {
 
+            Name "Section Cap"
+
             Tags
             {
                 "RenderType" = "Opaque"
@@ -159,11 +161,10 @@ Shader "Universal Render Pipeline/Simple Lit"
                 "LightMode" = "Section Cap"
             }
 
-            Name "Section Cap"
-
             Blend One Zero
-            ZWrite On
+            ZTest LEqual
             Cull Front
+            Offset -1,-1
             
             HLSLPROGRAM
             #pragma target 2.0
