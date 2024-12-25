@@ -1,4 +1,4 @@
-const half3   _MapSideColor = half3(0.75,0.75,0.75);
+#define MAP_SIDE_COLOR half3(0.75,0.75,0.75)
 
 int    _ArkioShowMap;
 float4 _ArkioModelSpaceBounds;
@@ -20,9 +20,8 @@ half3 ComputeMapColor(Varyings input)
             samplingPos.x /= _ArkioModelSpaceBounds.w - _ArkioModelSpaceBounds.y;
             samplingPos.y /= _ArkioModelSpaceBounds.z - _ArkioModelSpaceBounds.x;
             diffuse.rgb = SampleAlbedoAlpha(samplingPos, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap));
-        }
-        else { // side is unconditionally equal to _MapSideColor
-            diffuse.rgb = _MapSideColor.rgb;
+        } else { // side is unconditionally equal to _MapSideColor
+            diffuse.rgb = MAP_SIDE_COLOR;
         }
     }
 
