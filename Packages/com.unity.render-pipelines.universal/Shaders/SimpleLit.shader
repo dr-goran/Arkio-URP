@@ -150,6 +150,58 @@ Shader "Universal Render Pipeline/Simple Lit"
 
         Pass
         {
+
+            Tags
+            {
+                "RenderType" = "Opaque"
+                "RenderPipeline" = "UniversalPipeline"
+                "IgnoreProjector" = "True"
+                "LightMode" = "Section Cap"
+            }
+
+            Name "Section Cap"
+
+            Blend One Zero
+            ZWrite On
+            Cull Front
+            
+            HLSLPROGRAM
+            #pragma target 2.0
+
+            // -------------------------------------
+            // Shader Stages
+            #pragma vertex SectionPassVertex
+            #pragma fragment SectionPassFragment
+
+            // -------------------------------------
+            // Material Keywords
+            #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _ALPHAMODULATE_ON
+
+            // -------------------------------------
+            // Unity defined keywords
+            #pragma multi_compile_fog
+            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+            #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+            #pragma multi_compile _ DEBUG_DISPLAY
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+
+            //--------------------------------------
+            // GPU Instancing
+            #pragma multi_compile_instancing
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+
+            // ARKIO SPECIFIC
+            #include_with_pragmas "./Arkio.hlsl"
+            #include "./Arkio/SectionInput.hlsl"
+            #include "./Arkio/SectionForwardPass.hlsl"
+            ENDHLSL
+        }
+
+        Pass
+        {
             Name "ShadowCaster"
             Tags
             {
