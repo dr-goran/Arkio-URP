@@ -6,52 +6,52 @@ using ShaderKeywordFilter = UnityEditor.ShaderKeywordFilter;
 namespace UnityEngine.Rendering.Universal
 {
     [Serializable]
-    internal class ScreenSpaceAmbientOcclusionSettings
+    public class ScreenSpaceAmbientOcclusionSettings
     {
         // Parameters
-        [SerializeField] internal AOMethodOptions AOMethod = AOMethodOptions.BlueNoise;
-        [SerializeField] internal bool Downsample = false;
-        [SerializeField] internal bool AfterOpaque = false;
-        [SerializeField] internal DepthSource Source = DepthSource.DepthNormals;
-        [SerializeField] internal NormalQuality NormalSamples = NormalQuality.Medium;
-        [SerializeField] internal float Intensity = 3.0f;
-        [SerializeField] internal float DirectLightingStrength = 0.25f;
-        [SerializeField] internal float Radius = 0.035f;
-        [SerializeField] internal AOSampleOption Samples = AOSampleOption.Medium;
-        [SerializeField] internal BlurQualityOptions BlurQuality = BlurQualityOptions.High;
-        [SerializeField] internal float Falloff = 100f;
+        [SerializeField] public AOMethodOptions AOMethod = AOMethodOptions.BlueNoise;
+        [SerializeField] public bool Downsample = false;
+        [SerializeField] public bool AfterOpaque = false;
+        [SerializeField] public DepthSource Source = DepthSource.DepthNormals;
+        [SerializeField] public NormalQuality NormalSamples = NormalQuality.Medium;
+        [SerializeField] public float Intensity = 3.0f;
+        [SerializeField] public float DirectLightingStrength = 0.25f;
+        [SerializeField] public float Radius = 0.035f;
+        [SerializeField] public AOSampleOption Samples = AOSampleOption.Medium;
+        [SerializeField] public BlurQualityOptions BlurQuality = BlurQualityOptions.High;
+        [SerializeField] public float Falloff = 100f;
 
         // Legacy. Kept to migrate users over to use Samples instead.
         [SerializeField] internal int SampleCount = -1;
 
         // Enums
-        internal enum DepthSource
+        public enum DepthSource
         {
             Depth = 0,
             DepthNormals = 1
         }
 
-        internal enum NormalQuality
+        public enum NormalQuality
         {
             Low,
             Medium,
             High
         }
 
-        internal enum AOSampleOption
+        public enum AOSampleOption
         {
             High,   // 12 Samples
             Medium, // 8 Samples
             Low,    // 4 Samples
         }
 
-        internal enum AOMethodOptions
+        public enum AOMethodOptions
         {
             BlueNoise,
             InterleavedGradient,
         }
 
-        internal enum BlurQualityOptions
+        public enum BlurQualityOptions
         {
             High,   // Bilateral
             Medium, // Gaussian
@@ -86,7 +86,7 @@ namespace UnityEngine.Rendering.Universal
         private ScreenSpaceAmbientOcclusionPass m_SSAOPass = null;
 
         // Internal / Constants
-        internal ref ScreenSpaceAmbientOcclusionSettings settings => ref m_Settings;
+        public ref ScreenSpaceAmbientOcclusionSettings settings => ref m_Settings;
         internal const string k_AOInterleavedGradientKeyword = "_INTERLEAVED_GRADIENT";
         internal const string k_AOBlueNoiseKeyword = "_BLUE_NOISE";
         internal const string k_OrthographicCameraKeyword = "_ORTHOGRAPHIC";
