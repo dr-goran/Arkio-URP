@@ -97,6 +97,10 @@ float4 frag(Varyings input) : SV_Target
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
+    #if defined(ARKIO_SECTION)
+        if (sectioned(input.positionWS)) discard;
+    #endif
+
     #if defined(_ALPHATEST_ON)
         Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
     #endif
