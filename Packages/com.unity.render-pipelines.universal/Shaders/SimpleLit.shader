@@ -102,7 +102,7 @@ Shader "Universal Render Pipeline/Simple Lit"
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
-            // #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+            #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             #pragma multi_compile _ _LIGHT_LAYERS
             #pragma multi_compile _ _FORWARD_PLUS
@@ -118,13 +118,13 @@ Shader "Universal Render Pipeline/Simple Lit"
 
             // -------------------------------------
             // Unity defined keywords
-            // #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-            // #pragma multi_compile _ LIGHTMAP_ON
-            // #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            // #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
-            // #pragma multi_compile_fog
-            // #pragma multi_compile_fragment _ DEBUG_DISPLAY
-            // #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
+            #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
+            #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
+            #pragma multi_compile_fog
+            #pragma multi_compile_fragment _ DEBUG_DISPLAY
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
 
             //--------------------------------------
             // GPU Instancing
@@ -145,59 +145,6 @@ Shader "Universal Render Pipeline/Simple Lit"
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitForwardPass.hlsl"
-            ENDHLSL
-        }
-
-        Pass
-        {
-
-            Name "Section Cap"
-
-            Tags
-            {
-                "RenderType" = "Opaque"
-                "RenderPipeline" = "UniversalPipeline"
-                "IgnoreProjector" = "True"
-                "LightMode" = "Section Cap"
-            }
-
-            Blend One Zero
-            ZTest LEqual
-            Cull Front
-            Offset -1,-1
-            
-            HLSLPROGRAM
-            #pragma target 2.0
-
-            // -------------------------------------
-            // Shader Stages
-            #pragma vertex SectionPassVertex
-            #pragma fragment SectionPassFragment
-
-            // -------------------------------------
-            // Material Keywords
-            #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _ALPHAMODULATE_ON
-
-            // -------------------------------------
-            // Unity defined keywords
-            // #pragma multi_compile_fog
-            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
-            #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-            #pragma multi_compile _ DEBUG_DISPLAY
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-
-            //--------------------------------------
-            // GPU Instancing
-            #pragma multi_compile_instancing
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-
-            // ARKIO SPECIFIC
-            #include_with_pragmas "./Arkio.hlsl"
-            #include "./Arkio/SectionInput.hlsl"
-            #include "./Arkio/SectionForwardPass.hlsl"
             ENDHLSL
         }
 
@@ -301,10 +248,10 @@ Shader "Universal Render Pipeline/Simple Lit"
             // -------------------------------------
             // Unity defined keywords
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-            // #pragma multi_compile _ LIGHTMAP_ON
-            // #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            // #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
-            // #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+            #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
+            #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
+            #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
             #pragma multi_compile_fragment _ _RENDER_PASS_ENABLED
@@ -518,8 +465,6 @@ Shader "Universal Render Pipeline/Simple Lit"
             #pragma multi_compile _ LOD_FADE_CROSSFADE
             #pragma shader_feature_local_vertex _ADD_PRECOMPUTED_VELOCITY
             #define APLICATION_SPACE_WARP_MOTION 1
-            #include_with_pragmas "./Arkio.hlsl"
-            
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ObjectMotionVectors.hlsl"
             ENDHLSL
