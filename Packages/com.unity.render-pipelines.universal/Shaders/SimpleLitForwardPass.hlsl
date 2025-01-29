@@ -176,9 +176,6 @@ Varyings LitPassVertexSimple(Attributes input)
 
 #if defined(ARKIO_VERTEX_COLORS)
     output.vertexColor = input.vertexColor;
-    #ifdef ARKIO_SHADER_DEBUG
-    output.vertexColor = float4(0.4, 0, 0, 1);
-    #endif
 #endif
 
     OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
@@ -245,9 +242,6 @@ void LitPassFragmentSimple(
 
     #if defined(ARKIO_VEIL)
         color.a *= 1.0 - _ArkioGlobalVeilAlpha;
-        #ifdef ARKIO_SHADER_DEBUG
-            color.rgb = float3(1,1,0);
-        #endif
     #endif
 
     #if defined(ARKIO_XRAY)
