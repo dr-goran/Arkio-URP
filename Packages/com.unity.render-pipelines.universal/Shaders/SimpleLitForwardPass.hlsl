@@ -47,14 +47,13 @@ struct Varyings
 
     DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 7);
 
-    
-    #ifdef DYNAMICLIGHTMAP_ON
+#ifdef DYNAMICLIGHTMAP_ON
     float2  dynamicLightmapUV : TEXCOORD8; // Dynamic lightmap UVs
-    #endif
-    
-    #ifdef USE_APV_PROBE_OCCLUSION
+#endif
+
+#ifdef USE_APV_PROBE_OCCLUSION
     float4 probeOcclusion : TEXCOORD9;
-    #endif
+#endif
 
     #if defined(ARKIO_VERTEX_COLORS)
         float4 vertexColor : TEXCOORD10;
@@ -210,7 +209,7 @@ void LitPassFragmentSimple(
     , out float4 outRenderingLayers : SV_Target1
 #endif
 )
-{   
+{
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 

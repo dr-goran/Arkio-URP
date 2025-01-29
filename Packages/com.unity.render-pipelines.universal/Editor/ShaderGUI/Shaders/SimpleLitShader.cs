@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-namespace UnityEditor.Rendering.Universal.ShaderGUI {
-
+namespace UnityEditor.Rendering.Universal.ShaderGUI
+{
     internal class SimpleLitShader : BaseShaderGUI
     {
         // Properties

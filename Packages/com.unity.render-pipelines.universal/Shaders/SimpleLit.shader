@@ -57,7 +57,7 @@ Shader "Universal Render Pipeline/Simple Lit"
         {
             "RenderType" = "Opaque"
             "RenderPipeline" = "UniversalPipeline"
-            "UniversalMaterialType" = "SimpleLit" 
+            "UniversalMaterialType" = "SimpleLit"
             "IgnoreProjector" = "True"
         }
         LOD 300
@@ -141,8 +141,6 @@ Shader "Universal Render Pipeline/Simple Lit"
 
             // -------------------------------------
             // Includes
-
-
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitForwardPass.hlsl"
             ENDHLSL

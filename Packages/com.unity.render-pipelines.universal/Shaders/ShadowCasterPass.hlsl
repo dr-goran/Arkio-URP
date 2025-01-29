@@ -26,7 +26,6 @@ struct Varyings
     #if defined(_ALPHATEST_ON)
         float2 uv       : TEXCOORD0;
     #endif
-
     float4 positionCS   : SV_POSITION;
     UNITY_VERTEX_INPUT_INSTANCE_ID
 
