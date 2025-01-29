@@ -57,7 +57,7 @@ Shader "Universal Render Pipeline/Simple Lit"
         {
             "RenderType" = "Opaque"
             "RenderPipeline" = "UniversalPipeline"
-            "UniversalMaterialType" = "SimpleLit"
+            "UniversalMaterialType" = "SimpleLit" 
             "IgnoreProjector" = "True"
         }
         LOD 300
