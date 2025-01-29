@@ -12,7 +12,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
 
             Material material = materialEditor.target as Material;
             CoreEditorUtils.DrawSplitter(materialEditor);            
-            arkioExpanded = CoreEditorUtils.DrawHeaderFoldout("Arkio specific settings", arkioExpanded, isBoxed: false, null, null, isTitleHeader: false);            
+            arkioExpanded = CoreEditorUtils.DrawHeaderFoldout("Arkio specific settings", arkioExpanded, isBoxed: false, null, null, isTitleHeader: false);
             if (arkioExpanded) {
                 KeywordToggle("Obey veil", "ARKIO_VEIL");
                 KeywordToggle("Use Vertex Colors", "ARKIO_VERTEX_COLORS");
@@ -46,10 +46,9 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
 
             Material material = materialEditor.target as Material;
             CoreEditorUtils.DrawSplitter(materialEditor);
-            arkioExpanded = CoreEditorUtils.DrawHeaderFoldout("Arkio specific settings", arkioExpanded, isBoxed: false, null, null, isTitleHeader: false);            
+            arkioExpanded = CoreEditorUtils.DrawHeaderFoldout("Arkio specific settings", arkioExpanded, isBoxed: false, null, null, isTitleHeader: false);
             if (arkioExpanded) {
                 KeywordToggle("Obey veil", "ARKIO_VEIL");
-                KeywordToggle("Sectioned", "ARKIO_SECTION");
                 KeywordToggle("Use Vertex Colors", "ARKIO_VERTEX_COLORS");
                 KeywordToggle("X-Ray", "ARKIO_XRAY");
             }
