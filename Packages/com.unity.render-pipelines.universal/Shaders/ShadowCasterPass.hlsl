@@ -27,8 +27,16 @@ struct Varyings
         float2 uv       : TEXCOORD0;
     #endif
     float4 positionCS   : SV_POSITION;
+    #if defined(ARKIO_SECTION)
+    float3 positionWS   : TEXCOORD1;
+    #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
+
+float3 GetWorldPos(Attributes input) 
+{
+    return TransformObjectToWorld(input.positionOS.xyz);
+}
 
 float4 GetShadowPositionHClip(Attributes input)
 {
@@ -57,12 +65,19 @@ Varyings ShadowPassVertex(Attributes input)
     #endif
 
     output.positionCS = GetShadowPositionHClip(input);
+    #if defined(ARKIO_SECTION)
+    output.positionWS = GetWorldPos(input);
+    #endif
     return output;
 }
 
 half4 ShadowPassFragment(Varyings input) : SV_TARGET
 {
     UNITY_SETUP_INSTANCE_ID(input);
+
+    #if defined(ARKIO_SECTION)
+        if (sectioned(input.positionWS)) discard;
+    #endif
 
     #if defined(_ALPHATEST_ON)
         Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);

@@ -1,6 +1,6 @@
 
-#ifndef SECTION_FORWARD_PASS_INCLUDED
-#define SECTION_FORWARD_PASS_INCLUDED
+#ifndef SECTION_CAP_FORWARD_PASS_INCLUDED
+#define SECTION_CAP_FORWARD_PASS_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Unlit.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"

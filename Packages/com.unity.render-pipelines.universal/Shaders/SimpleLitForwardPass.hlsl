@@ -47,13 +47,13 @@ struct Varyings
 
     DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 7);
 
-#ifdef DYNAMICLIGHTMAP_ON
-    float2  dynamicLightmapUV : TEXCOORD8; // Dynamic lightmap UVs
-#endif
+    #ifdef DYNAMICLIGHTMAP_ON
+        float2  dynamicLightmapUV : TEXCOORD8; // Dynamic lightmap UVs
+    #endif
 
-#ifdef USE_APV_PROBE_OCCLUSION
-    float4 probeOcclusion : TEXCOORD9;
-#endif
+    #ifdef USE_APV_PROBE_OCCLUSION
+        float4 probeOcclusion : TEXCOORD9;
+    #endif
 
     #if defined(ARKIO_VERTEX_COLORS)
         float4 vertexColor : TEXCOORD10;
