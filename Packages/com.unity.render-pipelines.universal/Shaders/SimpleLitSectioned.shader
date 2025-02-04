@@ -160,7 +160,7 @@ Shader "Universal Render Pipeline/Arkio Simple Lit With Sections"
                 "LightMode" = "Section Cap"
             }
 
-            Blend One Zero
+            Blend[_SrcBlend][_DstBlend], [_SrcBlendAlpha][_DstBlendAlpha]
             ZTest LEqual
             Cull Front
             Offset -1,-1
