@@ -49,6 +49,11 @@ struct Varyings
 #if _ALPHATEST_ON
     float2 uv                         : TEXCOORD0;
 #endif
+
+#if defined(ARKIO_SECTION)
+    float3 positionWS                 : TEXCOORD1;
+#endif
+
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -67,6 +72,10 @@ Varyings vert(Attributes input)
 
     #if defined(_ALPHATEST_ON)
         output.uv = TRANSFORM_TEX(input.uv, _BaseMap);
+    #endif
+
+    #if defined(ARKIO_SECTION)
+        output.positionWS = TransformObjectToWorld(input.position.xyz);
     #endif
 
 #if defined(APLICATION_SPACE_WARP_MOTION)
