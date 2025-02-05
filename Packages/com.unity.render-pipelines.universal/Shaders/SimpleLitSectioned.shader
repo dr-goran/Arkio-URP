@@ -141,8 +141,6 @@ Shader "Universal Render Pipeline/Arkio Simple Lit With Sections"
             #include_with_pragmas "./Arkio.hlsl"
             #include_with_pragmas "./ArkioSections.hlsl"
 
-            // we have no special input variables, and 
-
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitForwardPass.hlsl"
             ENDHLSL
@@ -154,19 +152,17 @@ Shader "Universal Render Pipeline/Arkio Simple Lit With Sections"
 
             Tags
             {
-                "RenderType" = "Opaque"
-                "RenderPipeline" = "UniversalPipeline"
-                "IgnoreProjector" = "True"
                 "LightMode" = "Section Cap"
             }
 
-            Blend[_SrcBlend][_DstBlend], [_SrcBlendAlpha][_DstBlendAlpha]
-            ZTest LEqual
+            Blend One Zero
+            // ZTest LEqual
             Cull Front
-            Offset -1,-1
+            ZWrite On
+            Offset -0.1, 1
             
             HLSLPROGRAM
-            #pragma target 2.0
+            #pragma target 2.0 // also try 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -201,7 +197,6 @@ Shader "Universal Render Pipeline/Arkio Simple Lit With Sections"
             #include "./Arkio/SectionCapForwardPass.hlsl"
             ENDHLSL
         }
-
 
         Pass
         {
@@ -413,6 +408,9 @@ Shader "Universal Render Pipeline/Arkio Simple Lit With Sections"
 
             // -------------------------------------
             // Includes
+
+            #define ARKIO_SECTION
+            #include "./ArkioSections.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitDepthNormalsPass.hlsl"
             ENDHLSL
@@ -494,6 +492,8 @@ Shader "Universal Render Pipeline/Arkio Simple Lit With Sections"
             #pragma multi_compile _ LOD_FADE_CROSSFADE
             #pragma shader_feature_local_vertex _ADD_PRECOMPUTED_VELOCITY
 
+            #define ARKIO_SECTION
+            #include "./ArkioSections.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ObjectMotionVectors.hlsl"
             ENDHLSL
