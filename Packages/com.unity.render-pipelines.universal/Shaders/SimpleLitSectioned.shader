@@ -199,57 +199,6 @@ Shader "Universal Render Pipeline/Arkio Simple Lit With Sections"
 
         Pass
         {
-            Name "Section Cap"
-
-            Tags
-            {
-                "LightMode" = "Section Cap"
-            }
-
-            Blend [_SrcBlend][_DstBlend]
-            Cull Front
-            ZWrite On
-            Offset -0.1, 1
-            
-            HLSLPROGRAM
-            #pragma target 2.0 // also try 4.5
-
-            // -------------------------------------
-            // Shader Stages
-            #pragma vertex SectionPassVertex
-            #pragma fragment SectionPassFragment
-
-            // -------------------------------------
-            // Material Keywords
-            #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _ALPHAMODULATE_ON
-
-            // -------------------------------------
-            // Unity defined keywords
-            // #pragma multi_compile_fog
-            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
-            #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-            #pragma multi_compile _ DEBUG_DISPLAY
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-
-            //--------------------------------------
-            // GPU Instancing
-            #pragma multi_compile_instancing
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-
-            // ARKIO SPECIFIC
-            #define ARKIO_SECTION
-            #include_with_pragmas "./Arkio.hlsl"
-            #include_with_pragmas "./ArkioSections.hlsl"
-            #include "./Arkio/SectionCapInput.hlsl"
-            #include "./Arkio/SectionCapForwardPass.hlsl"
-            ENDHLSL
-        }
-
-        Pass
-        {
             Name "ShadowCaster"
             Tags
             {
