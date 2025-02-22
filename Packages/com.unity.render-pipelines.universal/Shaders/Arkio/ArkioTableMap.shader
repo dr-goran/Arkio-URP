@@ -198,7 +198,53 @@ Shader "Arkio URP/Simple Lit Table Map"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
             ENDHLSL
         }
+        
+        // This pass is used when drawing to a _CameraNormalsTexture texture
+        Pass
+        {
+            Name "DepthNormals"
+            Tags
+            {
+                "LightMode" = "DepthNormals"
+            }
 
+            // -------------------------------------
+            // Render State Commands
+            ZWrite On
+            Cull[_Cull]
+
+            HLSLPROGRAM
+            #pragma target 2.0
+
+            // -------------------------------------
+            // Shader Stages
+            #pragma vertex DepthNormalsVertex
+            #pragma fragment DepthNormalsFragment
+
+            // -------------------------------------
+            // Material Keywords
+            #pragma shader_feature_local _NORMALMAP
+            #pragma shader_feature_local _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _GLOSSINESS_FROM_BASE_ALPHA
+
+            // -------------------------------------
+            // Unity defined keywords
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+
+            // Universal Pipeline keywords
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+
+            //--------------------------------------
+            // GPU Instancing
+            #pragma multi_compile_instancing
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+
+            // -------------------------------------
+            // Includes
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitDepthNormalsPass.hlsl"
+            ENDHLSL
+        }
         
         Pass
         {
